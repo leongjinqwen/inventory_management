@@ -28,13 +28,13 @@ def store():
     return render_template('store.html')
 
 @app.route("/create",methods=["POST"])
-def create():
+def create_store():
     s = Store(name=request.form['name'])
     if s.save():
         flash("Successfully saved")
         return redirect(url_for('store'))
     else:
-        return render_template('store.html',name=request.form['name'])
+        return render_template('store.html',name=request.form['name'], errors=s.errors)
 
 @app.route("/stores")
 def stores_list():

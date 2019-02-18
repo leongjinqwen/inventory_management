@@ -1,7 +1,10 @@
 {% extends "_layout.html" %}
 {% block content %}
 <h1>Create a Store</h1>
-<form action="{{url_for('create')}}" method="POST">  
+{% for error in errors if errors|length > 0 %}
+  <li>{{error}}</li>
+{% endfor %}
+<form action="{{url_for('create_store')}}" method="POST">  
     <div class="form-group">
         <label for="name">Store Name:</label>
         <input type='text' name='name' class="form-control" / >
