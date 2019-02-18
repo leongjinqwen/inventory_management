@@ -21,7 +21,7 @@ class Store(BaseModel):
     name = pw.CharField(unique=True)
 
 class Warehouse(BaseModel):
-    store = pw.ForeignKeyField(Store, backref='warehouses', unique=True)
+    store = pw.ForeignKeyField(Store, backref='warehouses')
     location = pw.TextField()
 
 class Product(BaseModel):

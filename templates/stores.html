@@ -1,0 +1,22 @@
+{% extends "_layout.html" %}
+{% block content %}
+<h1>Stores</h1>
+<table class="pDetail table-striped w-75" >
+    <tr>
+        <th>Store Name</th>
+        <th>Number of Warehouses</th>
+        <th></th>
+    </tr>
+    {% for store in data %}
+    <tr>
+        <td>{{store.name}}</td>
+        <td>{{store.num}}</td>
+        <td>
+            <form action="{{url_for('delete_store',id=store.id)}}" method="POST">    
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
