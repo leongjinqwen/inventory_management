@@ -16,7 +16,7 @@ def after_request(response):
     db.close()
     return response
 
-@app.cli.command()
+@app.cli.command(short_help='Migrate database.')
 def migrate():
     db.evolve(ignore_tables={'base_model'})
 
