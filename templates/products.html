@@ -1,0 +1,26 @@
+{% extends "_layout.html" %}
+{% block content %}
+<h1>Products</h1>
+<table class="pDetail table-striped w-75" >
+    <tr>
+        <th>Product name</th>
+        <th>Description</th>
+        <th>Color</th>
+        <th>Warehouse location</th>
+        <th></th>
+    </tr>
+    {% for product in data %}
+    <tr>
+        <td><a href="{{url_for('product_show',id=product.id)}}">{{product.name}}</a></td>
+        <td>{{product.description}}</td>
+        <td>{{product.color}}</td>
+        <td><a href="{{url_for('warehouse_show',id=product.warehouse.id)}}">{{product.warehouse.location}}</a></td>
+        <td>
+            <form action="{{url_for('product_delete',id=product.id)}}" method="POST">    
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

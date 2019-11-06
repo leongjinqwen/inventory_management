@@ -1,0 +1,21 @@
+{% extends "_layout.html" %}
+{% block content %}
+<h1>{{warehouse.location}}</h1>
+<form action="{{url_for('warehouse_update',id=warehouse.id)}}" method="POST">  
+    <div class="form-group">
+        <label for="location">Warehouse Location:</label>
+        <input type='text' name='location' class="form-control" value="{{warehouse.location}}" / >
+        </br>
+        <select name='store_id'>
+            <option selected value="{{warehouse.store}}">{{warehouse.store.name}}</option>       
+                {% for store in stores %}
+                    {% if store.name != warehouse.store.name %}
+                    <option value="{{store.id}}">{{store.name}}</option>
+                    {% endif %}
+                {% endfor %} 
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Edit Warehouse</button>
+</form>
+
+{% endblock %}

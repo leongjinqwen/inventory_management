@@ -1,0 +1,24 @@
+{% extends "_layout.html" %}
+{% block content %}
+    <form action="{{url_for('product_update',id=product.id)}}" method="POST">
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type='text' name='name' class="form-control" value="{{product.name}}" / >
+            <label for="desc">Description:</label>
+            <input type='text' name='desc' class="form-control" value="{{product.description}}" / >
+            <label for="color">Color:</label>
+            <input type='text' name='color' class="form-control" value="{{product.color}}" / >
+            </br>
+            <select name='warehouse_id'>
+                <option selected value="{{product.warehouse}}">{{product.warehouse.location}}</option>       
+                {% for warehouse in warehouses %}
+                    {% if warehouse.location != product.warehouse.location %}
+                    <option value="{{warehouse.id}}">{{warehouse.location}}</option>
+                    {% endif %}
+                {% endfor %} 
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Edit Product</button>
+    </form>
+    </form>
+{% endblock %}

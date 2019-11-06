@@ -1,0 +1,22 @@
+{% extends "_layout.html" %}
+{% block content %}
+<h1>Warehouses</h1>
+<table class="pDetail table-striped w-75" >
+    <tr>
+        <th>Warehouse Location</th>
+        <th>Name of Store</th>
+        <th></th>
+    </tr>
+    {% for warehouse in data %}
+    <tr>
+        <td><a href="{{url_for('warehouse_show',id=warehouse.id)}}">{{warehouse.location}}</a></td>
+        <td><a href="{{url_for('store_show',id=warehouse.store.id)}}">{{warehouse.store.name}}</a></td>
+        <td>
+            <form action="{{url_for('warehouse_delete',id=warehouse.id)}}" method="POST">    
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
