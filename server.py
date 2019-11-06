@@ -32,10 +32,10 @@ def store_new():
 def store_create():
     s = Store(name=request.form['name'])
     if s.save():
-        flash("Successfully saved")
+        flash("Successfully saved","success")
         return redirect(url_for('stores_list'))
     else:
-        flash(f"{s.errors}")
+        flash(f"{s.errors}","danger")
         return render_template('store.html',name=request.form['name'], errors=s.errors)
 
 @app.route("/stores",methods=["GET"])
@@ -48,24 +48,23 @@ def stores_list():
 def store_delete(id):
     s = Store.get_by_id(id)
     if s.delete_instance():
-        flash("Successfully deleted")
+        flash("Successfully deleted","success")
     else:
-        flash("Unable to delete")
+        flash("Unable to delete","danger")
     return redirect(url_for('stores_list'))
 
 @app.route("/store/<int:id>",methods=["GET"])
 def store_show(id):
     store = Store.get_by_id(id)
-    # store = Store.select(Store.name,Store.id,fn.Count(Warehouse.id).alias('num')).join(Warehouse, JOIN.LEFT_OUTER).group_by(Store.id).where(Store.id==id)
     return render_template('store_show.html',store=store)
 
 @app.route("/store/<int:id>/update",methods=["POST"])
 def store_update(id):
     s = Store(id=id,name=request.form['name'])
     if s.save(only=[Store.name]):
-        flash("Successfully updated")
+        flash("Successfully updated","success")
     else:
-        flash("Unable to update")
+        flash("Unable to update","danger")
     return redirect(url_for('store_show',id=id))
 
 @app.route("/warehouse/new",methods=["GET"])
@@ -78,9 +77,10 @@ def warehouse_create():
     store = Store.get(id=request.form['store_id'])
     w = Warehouse(location=request.form['location'], store=store)
     if w.save():
-        flash("Successfully saved")
+        flash("Warehouse successfully created","success")
         return redirect(url_for('warehouses_list'))
     else:
+        flash("Something happened. Unable to create warehouse","danger")
         return render_template('warehouse.html')
 
 @app.route("/warehouses",methods=["GET"])
@@ -94,22 +94,22 @@ def warehouse_show(id):
     stores = Store.select()
     return render_template('warehouse_show.html',warehouse=warehouse,stores=stores)
 
-@app.route("/warehouse/update/<int:id>",methods=["POST"])
+@app.route("/warehouse/<int:id>/update",methods=["POST"])
 def warehouse_update(id):
     w = Warehouse(id=id,location=request.form['location'],store=request.form['store_id'])
     if w.save(only=[Warehouse.location,Warehouse.store]):
-        flash("Successfully updated")
+        flash("Successfully updated","success")
     else:
-        flash("Unable to update")
+        flash("Unable to update","danger")
     return redirect(url_for('warehouse_show',id=id))
 
-@app.route("/warehouse/delete/<int:id>",methods=["POST"])
+@app.route("/warehouse/<int:id>/delete",methods=["POST"])
 def warehouse_delete(id):
     w = Warehouse.get_by_id(id)
     if w.delete_instance():
-        flash("Successfully deleted")
+        flash("Successfully deleted","success")
     else:
-        flash("Unable to update")
+        flash("Unable to update","danger")
     return redirect(url_for('warehouses_list'))
   
 @app.route("/product/new",methods=["GET"])
@@ -121,9 +121,9 @@ def product_new():
 def product_create():
     p = Product(name=request.form['name'],description=request.form['desc'],color=request.form['color'], warehouse=request.form['warehouse_id'])
     if p.save():
-        flash("Successfully saved")
+        flash("Successfully saved","success")
     else:
-        flash("Unable to create new product")
+        flash("Unable to create new product","danger")
     return redirect(url_for('products_list'))
 
 @app.route("/products",methods=["GET"])
@@ -137,22 +137,22 @@ def product_show(id):
     warehouses = Warehouse.select()
     return render_template('product_show.html',product=product,warehouses=warehouses)
 
-@app.route("/product/update/<int:id>",methods=["POST"])
+@app.route("/product/<int:id>/update",methods=["POST"])
 def product_update(id):
     p = Product(id=id,name=request.form['name'],description=request.form['desc'],color=request.form['color'],warehouse=request.form['warehouse_id'])
     if p.save(only=[Product.name,Product.description,Product.color,Product.warehouse]):
-        flash("Successfully updated")
+        flash("Successfully updated","success")
     else:
-        flash("Unable to update")
+        flash("Unable to update","danger")
     return redirect(url_for('product_show',id=id))
 
-@app.route("/product/delete/<int:id>",methods=["POST"])
+@app.route("/product/<int:id>/delete",methods=["POST"])
 def product_delete(id):
     p = Product.get_by_id(id)
     if p.delete_instance():
-        flash("Successfully deleted")
+        flash("Successfully deleted","success")
     else:
-        flash("Unable to delete")
+        flash("Unable to delete","danger")
     return redirect(url_for('products_list'))
 
 if __name__ == '__main__' :

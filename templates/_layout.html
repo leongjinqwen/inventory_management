@@ -39,11 +39,13 @@
     </ul>
     <div class="container">
         <!-- flash message -->
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <ul class='flashes list-unstyled alert alert-success'>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
+                <ul class='flashes list-unstyled'>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                        <li>{{ message }}</li>
+                    </div>
                 {% endfor %}
                 </ul>
             {% endif %}
